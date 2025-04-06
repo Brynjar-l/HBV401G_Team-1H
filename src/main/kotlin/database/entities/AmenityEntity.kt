@@ -1,7 +1,7 @@
-package database.exposed.entities
+package ice.private.brynj.database.entities
 
-import database.exposed.tables.AmenityTable
-import database.exposed.tables.HotelAmenitiesTable
+import ice.private.brynj.database.tables.AmenityTable
+import ice.private.brynj.database.tables.HotelAmenitiesTable
 import ice.private.brynj.database.model.Amenity
 import org.jetbrains.exposed.dao.IntEntity
 import org.jetbrains.exposed.dao.IntEntityClass
@@ -15,12 +15,6 @@ class AmenityEntity(id: EntityID<Int>) : IntEntity(id) {
 
 
     fun toDto(): Amenity = Amenity(
-        id = this.id.value,
-        name = this.name,
-    )
-
-    val dto: Amenity
-        get() = Amenity(
         id = this.id.value,
         name = this.name,
     )

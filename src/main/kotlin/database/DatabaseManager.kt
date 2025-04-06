@@ -1,9 +1,10 @@
 package ice.private.brynj.database
 
-import database.exposed.tables.*
+import database.exposedLib.tables.*
 import ice.private.brynj.database.model.Amenity
 import ice.private.brynj.database.model.Hotel
 import ice.private.brynj.database.model.Room
+import ice.private.brynj.database.tables.*
 import org.jetbrains.exposed.sql.*
 import org.jetbrains.exposed.sql.transactions.TransactionManager
 import org.jetbrains.exposed.sql.transactions.transaction
@@ -14,7 +15,7 @@ object DatabaseManager {
     private val dbFile: File = File("database.sqlite").absoluteFile
     private val db: Database = Database.connect("jdbc:sqlite:file:${dbFile}")
 
-    init {
+    fun init() {
         TransactionManager.defaultDatabase = db
         TransactionManager.manager.defaultIsolationLevel = Connection.TRANSACTION_SERIALIZABLE
 

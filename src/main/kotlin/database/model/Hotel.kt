@@ -10,6 +10,9 @@ data class Hotel(
 
     val id: Int? = null,
 
-    val rooms: MutableSet<Room> = linkedSetOf(),
-    val amenities: MutableSet<Amenity> = linkedSetOf(),
+    val rooms: MutableList<Room> = mutableListOf(),
+    val amenities: MutableList<Amenity> = mutableListOf(),
+
+    var minPrice: Int? = null,
+    var maxPrice: Int? = null,
 )

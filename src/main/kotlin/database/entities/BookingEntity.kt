@@ -1,7 +1,7 @@
-package database.exposed.entities
+package ice.private.brynj.database.entities
 
 
-import database.exposed.tables.BookingTable
+import ice.private.brynj.database.tables.BookingTable
 import org.jetbrains.exposed.dao.IntEntity
 import org.jetbrains.exposed.dao.IntEntityClass
 import org.jetbrains.exposed.dao.id.EntityID

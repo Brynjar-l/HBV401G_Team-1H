@@ -1,4 +1,4 @@
-package database.exposed.tables
+package ice.private.brynj.database.tables
 
 import org.jetbrains.exposed.dao.id.IntIdTable
 import org.jetbrains.exposed.sql.ReferenceOption

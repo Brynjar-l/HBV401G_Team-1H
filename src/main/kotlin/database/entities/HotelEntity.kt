@@ -1,9 +1,9 @@
-package database.exposed.entities
+package ice.private.brynj.database.entities
 
 
-import database.exposed.tables.HotelAmenitiesTable
-import database.exposed.tables.HotelTable
-import database.exposed.tables.RoomTable
+import ice.private.brynj.database.tables.HotelAmenitiesTable
+import ice.private.brynj.database.tables.HotelTable
+import ice.private.brynj.database.tables.RoomTable
 import ice.private.brynj.database.model.Hotel
 import org.jetbrains.exposed.dao.IntEntity
 import org.jetbrains.exposed.dao.IntEntityClass
@@ -24,28 +24,27 @@ class HotelEntity(id: EntityID<Int>) : IntEntity(id) {
     var amenities by AmenityEntity via HotelAmenitiesTable
 
 
-    fun toDto(): Hotel = Hotel(
-        id = this.id.value,
-        name = this.name,
-        address = this.address,
-        city = this.city,
-        starRating = this.starRating,
-        description = this.description,
-        rooms = this.rooms.map { it.toDto() }.toMutableSet(),
-        amenities = this.amenities.map { it.toDto() }.toMutableSet(),
-    )
+    fun toDto(): Hotel  {
 
-    val dto: Hotel
-        get() = Hotel(
+        val rooms = this.rooms.map { it.toDto() }.toMutableList()
+        val amenities = this.amenities.map { it.toDto() }.toMutableList()
+
+        return Hotel(
             id = this.id.value,
+
             name = this.name,
             address = this.address,
             city = this.city,
             starRating = this.starRating,
             description = this.description,
-            rooms = this.rooms.map { it.dto }.toMutableSet(),
-            amenities = this.amenities.map { it.dto }.toMutableSet(),
+
+            rooms = rooms,
+            amenities = amenities,
+
+            minPrice = rooms.minOf { it.pricePerNight },
+            maxPrice = rooms.maxOf { it.pricePerNight }
         )
+    }
 }
 
 

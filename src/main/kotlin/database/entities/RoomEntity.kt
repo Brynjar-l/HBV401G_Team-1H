@@ -1,8 +1,8 @@
-package database.exposed.entities
+package ice.private.brynj.database.entities
 
 
-import database.exposed.tables.BookingTable
-import database.exposed.tables.RoomTable
+import ice.private.brynj.database.tables.BookingTable
+import ice.private.brynj.database.tables.RoomTable
 import ice.private.brynj.database.model.Room
 
 import org.jetbrains.exposed.dao.IntEntity
@@ -27,14 +27,8 @@ class RoomEntity(id: EntityID<Int>) : IntEntity(id) {
         roomNumber = this.roomNumber,
         pricePerNight = this.pricePerNight,
         hotelId = this.hotel.id.value,
+        /* numberOfRooms = 2, */
     )
 
-    val dto: Room
-        get() = Room(
-            id = this.id.value,
-            roomNumber = this.roomNumber,
-            pricePerNight = this.pricePerNight,
-            hotelId = this.hotel.id.value,
-        )
 }
 
