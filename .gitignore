@@ -46,3 +46,6 @@ bin/
 
 ### ipynb ###
 *.ipynb
+
+### the database file itself ###
+database.sqlite
