@@ -12,10 +12,13 @@ import java.io.File
 import java.sql.Connection
 
 object DatabaseManager {
-    private val dbFile: File = File("database.sqlite").absoluteFile
-    private val db: Database = Database.connect("jdbc:sqlite:file:${dbFile}")
+    private lateinit var dbFile: File
+    private lateinit var db: Database
 
-    fun init() {
+    fun init(dbFile: File = File("database.sqlite").absoluteFile) {
+        this.dbFile = dbFile
+        this.db = Database.connect("jdbc:sqlite:file:${DatabaseManager.dbFile}")
+
         TransactionManager.defaultDatabase = db
         TransactionManager.manager.defaultIsolationLevel = Connection.TRANSACTION_SERIALIZABLE
 
