@@ -13,4 +13,23 @@ data class SearchCriteria(
     var fromDate: LocalDate? = null,
     var toDate: LocalDate? = null,
     var numberOfBeds: Int? = null,
-)
+) {
+    fun addAmenity(amenity: Amenity) {
+        selectedAmenities += amenity
+    }
+    fun removeAmenity(amenity: Amenity) {
+        selectedAmenities -= amenity
+    }
+
+    fun reset() = this.apply {
+            selectedAmenities = emptySet()
+            city = null
+            minStarRating = null
+            maxStarRating = null
+            minPricePerNight = null
+            maxPricePerNight = null
+            fromDate = null
+            toDate = null
+            numberOfBeds = null
+    }
+}
