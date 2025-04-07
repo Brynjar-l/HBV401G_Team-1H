@@ -49,4 +49,4 @@ bin/
 *.ipynb
 
 ### the database file itself ###
-database.sqlite
+./database.sqlite
