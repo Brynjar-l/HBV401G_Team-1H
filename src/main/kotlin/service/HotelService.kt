@@ -44,7 +44,6 @@ class HotelService(private val hotelProvider: HotelProvider = defaultProvider())
         matchesCity && matchesStarRating && matchesAmenities && matchesPrice && matchesDate
     }
 
-
     private object Match {
         fun amenities(hotel: Hotel, criteria: SearchCriteria): Boolean {
             return if (criteria.selectedAmenities.isNotEmpty()) {
@@ -94,7 +93,7 @@ class HotelService(private val hotelProvider: HotelProvider = defaultProvider())
         }
     }
 
-    private fun refreshCache(sizeLimit: Int = 5000) = transaction {
+    private fun refreshCache(sizeLimit: Int = 5000) {
         cache.clear()
         cache.addAll(hotelProvider())
     }
