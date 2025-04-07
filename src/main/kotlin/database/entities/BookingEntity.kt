@@ -2,9 +2,11 @@ package ice.private.brynj.database.entities
 
 
 import ice.private.brynj.database.tables.BookingTable
+import ice.private.brynj.model.Booking
 import org.jetbrains.exposed.dao.IntEntity
 import org.jetbrains.exposed.dao.IntEntityClass
 import org.jetbrains.exposed.dao.id.EntityID
+import java.time.LocalDate
 
 class BookingEntity(id: EntityID<Int>) : IntEntity(id) {
     companion object : IntEntityClass<BookingEntity>(BookingTable)
@@ -13,4 +15,21 @@ class BookingEntity(id: EntityID<Int>) : IntEntity(id) {
     var fromDate by BookingTable.fromDate
     var toDate by BookingTable.toDate
     var totalPrice by BookingTable.totalPrice
+
+
+    fun toDto(): Booking {
+
+        val room = this.room.toDto()
+        val fromDate: LocalDate = LocalDate.parse(this.fromDate)
+        val toDate: LocalDate = LocalDate.parse(this.toDate)
+
+        return Booking(
+            id = this.id.value,
+            room = room,
+
+            fromDate = fromDate,
+            toDate = toDate,
+            totalPrice = this.totalPrice,
+        )
+    }
 }
