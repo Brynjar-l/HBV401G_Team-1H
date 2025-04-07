@@ -13,6 +13,20 @@ data class Hotel(
     val rooms: List<Room> = emptyList(),
     val amenities: List<Amenity> = emptyList(),
 
-    var minPrice: Int? = null,
-    var maxPrice: Int? = null,
-)
+    ) {
+
+    val minPrice: Int?
+        get() = try {
+            rooms.minOf { it.pricePerNight }
+        } catch (_: NoSuchElementException) {
+            null
+        }
+
+
+    val maxPrice: Int?
+        get() = try {
+            rooms.maxOf { it.pricePerNight }
+        } catch (_: NoSuchElementException) {
+            null
+        }
+}
