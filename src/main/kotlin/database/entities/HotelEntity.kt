@@ -26,9 +26,6 @@ class HotelEntity(id: EntityID<Int>) : IntEntity(id) {
 
     fun toDto(): Hotel {
 
-        val rooms = this.rooms.map { it.toDto() }
-        val amenities = this.amenities.map { it.toDto() }
-
         return Hotel(
             id = this.id.value,
 
@@ -38,11 +35,9 @@ class HotelEntity(id: EntityID<Int>) : IntEntity(id) {
             starRating = this.starRating,
             description = this.description,
 
-            rooms = rooms,
-            amenities = amenities,
+            rooms = this.rooms.map { it.toDto() },
+            amenities = this.amenities.map { it.toDto() },
 
-            minPrice = rooms.minOf { it.pricePerNight },
-            maxPrice = rooms.maxOf { it.pricePerNight }
         )
     }
 }
