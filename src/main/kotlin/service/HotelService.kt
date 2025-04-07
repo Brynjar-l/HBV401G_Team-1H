@@ -7,20 +7,27 @@ import org.jetbrains.exposed.sql.transactions.transaction
 import java.time.LocalDate
 
 
-object HotelService {
+typealias HotelProvider = () -> List<Hotel>
+
+fun defaultProvider(): HotelProvider = {
+    transaction {
+        HotelEntity.all().map { it.toDto() }
+    }
+}
+
+class HotelService(private val hotelProvider: HotelProvider = defaultProvider()) {
 
     private val cache = LinkedHashSet<Hotel>()
 
-
     init {
-        cacheMiss(5000)
+        refreshCache(5000)
     }
 
     fun searchHotels(criteria: SearchCriteria): List<Hotel> {
         val resultList = queryCache(criteria)
 
         if (resultList.isNotEmpty()) return resultList
-        else cacheMiss()
+        else refreshCache()
 
         return queryCache(criteria)
     }
@@ -87,12 +94,9 @@ object HotelService {
         }
     }
 
-    fun invalidateCache(sizeLimit: Int = 5000) = transaction {
+    private fun refreshCache(sizeLimit: Int = 5000) = transaction {
         cache.clear()
-        cache.addAll(HotelEntity.all().limit(sizeLimit).map { it.toDto() })
-    }
-    private fun cacheMiss(sizeLimit: Int = 5000) = transaction {
-        cache.addAll(HotelEntity.all().limit(sizeLimit).map { it.toDto() })
+        cache.addAll(hotelProvider())
     }
 }
 
