@@ -6,4 +6,5 @@ object RoomTable : IntIdTable("rooms", "id") {
     val hotel = reference("hotel_id", HotelTable)
     val roomNumber = text("room_number").nullable()
     val pricePerNight = integer("room_price_per_night")
+    val numberOfBeds = integer("number_of_beds")
 }

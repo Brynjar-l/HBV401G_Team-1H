@@ -1,4 +1,4 @@
-package ice.private.brynj.database.model
+package ice.private.brynj.model
 
 data class Hotel(
 
@@ -10,8 +10,8 @@ data class Hotel(
 
     val id: Int? = null,
 
-    val rooms: MutableList<Room> = mutableListOf(),
-    val amenities: MutableList<Amenity> = mutableListOf(),
+    val rooms: List<Room> = emptyList(),
+    val amenities: List<Amenity> = emptyList(),
 
     var minPrice: Int? = null,
     var maxPrice: Int? = null,

@@ -4,7 +4,7 @@ package ice.private.brynj.database.entities
 import ice.private.brynj.database.tables.HotelAmenitiesTable
 import ice.private.brynj.database.tables.HotelTable
 import ice.private.brynj.database.tables.RoomTable
-import ice.private.brynj.database.model.Hotel
+import ice.private.brynj.model.Hotel
 import org.jetbrains.exposed.dao.IntEntity
 import org.jetbrains.exposed.dao.IntEntityClass
 import org.jetbrains.exposed.dao.id.EntityID
@@ -24,10 +24,10 @@ class HotelEntity(id: EntityID<Int>) : IntEntity(id) {
     var amenities by AmenityEntity via HotelAmenitiesTable
 
 
-    fun toDto(): Hotel  {
+    fun toDto(): Hotel {
 
-        val rooms = this.rooms.map { it.toDto() }.toMutableList()
-        val amenities = this.amenities.map { it.toDto() }.toMutableList()
+        val rooms = this.rooms.map { it.toDto() }
+        val amenities = this.amenities.map { it.toDto() }
 
         return Hotel(
             id = this.id.value,

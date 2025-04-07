@@ -1,9 +1,9 @@
 package ice.private.brynj.database
 
-import database.exposedLib.tables.*
-import ice.private.brynj.database.model.Amenity
-import ice.private.brynj.database.model.Hotel
-import ice.private.brynj.database.model.Room
+
+import ice.private.brynj.model.Amenity
+import ice.private.brynj.model.Hotel
+import ice.private.brynj.model.Room
 import ice.private.brynj.database.tables.*
 import org.jetbrains.exposed.sql.*
 import org.jetbrains.exposed.sql.transactions.TransactionManager
@@ -676,9 +676,10 @@ object DatabaseManager {
         }
     }
 
-    private fun Transaction.populateRoomsTable() {
-        val priceRange = (4000..12000)
-
+    private fun Transaction.populateRoomsTable(
+        priceRange: IntRange = (4000..12000),
+        numberOfBedsRange: Int = 4,
+    ) {
         val hotelIds = HotelTable.selectAll().map { it[HotelTable.id].value }
 
         val roomNumbers = listOf(
@@ -693,7 +694,8 @@ object DatabaseManager {
                 Room(
                     roomNumber = roomNumber,
                     pricePerNight = priceRange.random(),
-                    hotelId = hotelId
+                    hotelId = hotelId,
+                    numberOfBeds = (1 .. numberOfBedsRange).random()
                 )
             }
         }
@@ -702,6 +704,7 @@ object DatabaseManager {
             this[RoomTable.roomNumber] = room.roomNumber
             this[RoomTable.pricePerNight] = room.pricePerNight
             this[RoomTable.hotel] = room.hotelId
+            this[RoomTable.numberOfBeds] = room.numberOfBeds
         }
     }
 

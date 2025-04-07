@@ -1,4 +1,4 @@
-package ice.private.brynj.database.model
+package ice.private.brynj.model
 
 data class Amenity(
     val name: String,
