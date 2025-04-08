@@ -37,7 +37,7 @@
                               </TextField>
                            </children>
                         </HBox>
-                        <Button fx:id="searchButton" mnemonicParsing="false" text="serch" />
+                        <Button fx:id="searchButton" mnemonicParsing="false" onAction="#onSearchButtonClick" text="serch" />
                      </children>
                   </VBox>
                   <ListView id="listView" fx:id="listView" minWidth="300.0" prefHeight="200.0" prefWidth="200.0" />
@@ -51,6 +51,7 @@
                         <Insets left="1.0" />
                      </padding>
                 </VBox>
+                <Button fx:id="searchButton" onAction="#onSearchButtonClick" text="Search" />
                </children>
             </HBox>
          </children></AnchorPane>
