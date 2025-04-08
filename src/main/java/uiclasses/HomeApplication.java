@@ -14,7 +14,7 @@ public class HomeApplication extends Application {
     @Override
     public void start(Stage stage) {
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("src/main/resources/UI/hom-view.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/UI/homeView.fxml"));
             Parent root = loader.load();
             Scene scene = new Scene(root);
             stage.setScene(scene);
