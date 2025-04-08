@@ -5,7 +5,6 @@ import ice.private.brynj.model.Hotel
 import ice.private.brynj.utils.SearchCriteria
 import org.jetbrains.exposed.sql.transactions.transaction
 import java.time.LocalDate
-import ice.private.brynj.database.entities.HotelEntity
 
 
 typealias HotelProvider = () -> List<Hotel>
@@ -22,13 +21,6 @@ class HotelService(private val hotelProvider: HotelProvider = defaultProvider())
 
     init {
         refreshCache(5000)
-    }
-
-    fun getAllHotels(): List<Hotel> {
-        return transaction {
-            // Fetch all hotels from the database and convert them to Hotel model
-            HotelEntity.all().map { it.toDto() }
-        }
     }
 
     fun searchHotels(criteria: SearchCriteria): List<Hotel> {
@@ -106,4 +98,3 @@ class HotelService(private val hotelProvider: HotelProvider = defaultProvider())
         cache.addAll(hotelProvider())
     }
 }
-

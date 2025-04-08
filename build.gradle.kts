@@ -1,6 +1,5 @@
 plugins {
     kotlin("jvm") version "2.1.10"
-    java
     application
     id("org.openjfx.javafxplugin") version "0.0.13"
 }
@@ -11,20 +10,6 @@ version = "1.0-SNAPSHOT"
 repositories {
     mavenCentral()
 }
-
-java {
-    toolchain {
-        languageVersion = JavaLanguageVersion.of(21)
-    }
-}
-
-sourceSets {
-    main {
-        java.setSrcDirs(listOf("src/main/java", "src/main/kotlin"))
-        resources.setSrcDirs(listOf("src/main/resources"))
-    }
-}
-
 
 
 
