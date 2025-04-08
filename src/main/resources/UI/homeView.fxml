@@ -50,7 +50,7 @@
                                     <Insets right="10.0" />
                                  </HBox.margin>
                               </TextField>
-                              <Text strokeType="OUTaSIDE" strokeWidth="0.0" text="to" />
+                              <Text strokeType="OUTSIDE" strokeWidth="0.0" text="to" />
                               <TextField fx:id="maxStarRatingTextField" promptText="Max">
                                  <HBox.margin>
                                     <Insets left="10.0" />
