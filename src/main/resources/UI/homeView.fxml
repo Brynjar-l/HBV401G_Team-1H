@@ -16,7 +16,7 @@
          <children>
             <HBox layoutX="99.0" layoutY="51.0" prefHeight="168.0" prefWidth="272.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                <children>
-                  <VBox prefHeight="400.0" prefWidth="190.0">
+                  <VBox minWidth="200.0">
                      <children>
                         <TextField fx:id="cityTextField" promptText="Enter City" />
                         <CheckBox mnemonicParsing="false" text="CheckBox" />
@@ -40,7 +40,17 @@
                         <Button fx:id="searchButton" mnemonicParsing="false" text="serch" />
                      </children>
                   </VBox>
-                  <ListView id="listView" fx:id="listView" prefHeight="200.0" prefWidth="200.0" />
+                  <ListView id="listView" fx:id="listView" minWidth="300.0" prefHeight="200.0" prefWidth="200.0" />
+                     <VBox fillWidth="false" minWidth="300.0">
+                    <Text fx:id="hotelName" />
+                    <Text fx:id="hotelAddress" />
+                    <Text fx:id="hotelCity" />
+                    <Text fx:id="hotelStarRating" />
+                    <Text fx:id="hotelDescription" />
+                     <padding>
+                        <Insets left="1.0" />
+                     </padding>
+                </VBox>
                </children>
             </HBox>
          </children></AnchorPane>
