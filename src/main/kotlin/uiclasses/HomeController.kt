@@ -14,6 +14,7 @@ import javafx.event.ActionEvent
 import java.net.URL
 import java.util.*
 
+
 class HomeController : Initializable {
 
     @FXML
@@ -45,6 +46,12 @@ class HomeController : Initializable {
 
     @FXML
     private lateinit var hotelDescription: Text
+
+    @FXML
+    private lateinit var minStarRatingTextField: TextField
+
+    @FXML
+    private lateinit var maxStarRatingTextField: TextField
 
     private val hotelService = HotelService() // Create an instance of HotelService
 
@@ -111,8 +118,6 @@ class HomeController : Initializable {
     @FXML
     private lateinit var minPriceTextField: TextField
 
-    @FXML
-    private lateinit var searchButton: Button
 
     @FXML
     private lateinit var hotelName: Text
@@ -128,6 +133,9 @@ class HomeController : Initializable {
 
     @FXML
     private lateinit var hotelDescription: Text
+
+
+
 
     private val hotelService = HotelService() // Create an instance of HotelService
 
@@ -182,20 +190,20 @@ class HomeController : Initializable {
 
     @FXML
     fun onSearchButtonClick() {
-        // Get values from the text fields
         val city = cityTextField.text
-        val minPrice = minPriceTextField.text.toIntOrNull() // Parse as Int if valid
+        val minPrice = minPriceTextField.text.toIntOrNull()
         val maxPrice = maxPriceTextField.text.toIntOrNull()
-
+        val minStarRating = minStarRatingTextField.text.toDoubleOrNull()
+        val maxStarRating = maxStarRatingTextField.text.toDoubleOrNull()
+      
         // Create SearchCriteria based on the input values
         val criteria = SearchCriteria(
             city = city.takeIf { it.isNotBlank() },
             minPricePerNight = minPrice,
-            maxPricePerNight = maxPrice
+            maxPricePerNight = maxPrice,
+            minStarRating = minStarRating,
+            maxStarRating = maxStarRating
         )
-
-        // Clear the current list of hotels before adding the search results
-        listView.items.clear()
 
         // Search for hotels based on the criteria
         val hotels = hotelService.searchHotels(criteria)
@@ -203,6 +211,9 @@ class HomeController : Initializable {
         // Update the ListView with the search results
         listView.items.setAll(hotels)
     }
+
+
+
 
     private fun showHotelDetails(hotel: Hotel) {
         // Display the details of the hovered hotel in the right section
@@ -225,14 +236,18 @@ class HomeController : Initializable {
 
         // Get values from the text fields
         val city = cityTextField.text
-        val minPrice = minPriceTextField.text.toIntOrNull() // Parse as Int if valid
+        val minPrice = minPriceTextField.text.toIntOrNull() 
         val maxPrice = maxPriceTextField.text.toIntOrNull()
+        val minStarRating = minStarRatingTextField.text.toDoubleOrNull()
+        val maxStarRating = maxStarRatingTextField.text.toDoubleOrNull()
 
         // Create SearchCriteria based on the input values
         val criteria = SearchCriteria(
             city = city.takeIf { it.isNotBlank() },
             minPricePerNight = minPrice,
-            maxPricePerNight = maxPrice
+            maxPricePerNight = maxPrice,
+            minStarRating = minStarRating,
+            maxStarRating = maxStarRating
         )
 
         // Search for hotels based on the criteria

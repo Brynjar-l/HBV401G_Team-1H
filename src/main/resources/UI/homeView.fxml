@@ -42,6 +42,22 @@
                               </TextField>
                            </children>
                         </HBox>
+                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Star Rating" />
+                        <HBox prefHeight="32.0" prefWidth="200.0">
+                           <children>
+                              <TextField fx:id="minStarRatingTextField" prefHeight="24.0" prefWidth="169.0" promptText="Min">
+                                 <HBox.margin>
+                                    <Insets right="10.0" />
+                                 </HBox.margin>
+                              </TextField>
+                              <Text strokeType="OUTaSIDE" strokeWidth="0.0" text="to" />
+                              <TextField fx:id="maxStarRatingTextField" promptText="Max">
+                                 <HBox.margin>
+                                    <Insets left="10.0" />
+                                 </HBox.margin>
+                              </TextField>
+                           </children>
+                        </HBox>
                         <Button fx:id="searchButton" mnemonicParsing="false" onAction="#onSearchButtonClick" text="serch" />
                      </children>
                   </VBox>
