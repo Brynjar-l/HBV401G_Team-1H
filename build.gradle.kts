@@ -1,5 +1,8 @@
 plugins {
     kotlin("jvm") version "2.1.10"
+    java
+    application
+    id("org.openjfx.javafxplugin") version "0.0.13"
 }
 
 group = "ice.private.brynj"
@@ -7,6 +10,12 @@ version = "1.0-SNAPSHOT"
 
 repositories {
     mavenCentral()
+}
+
+java {
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(17)
+    }
 }
 
 dependencies {
@@ -23,6 +32,21 @@ dependencies {
     /* Logging */
     implementation("org.slf4j:slf4j-api:2.0.17")
     implementation("ch.qos.logback:logback-classic:1.4.14")
+
+
+    // JavaFX
+    implementation("org.openjfx:javafx-controls:21")
+    implementation("org.openjfx:javafx-fxml:21")
+    implementation("org.openjfx:javafx-media:21")
+}
+
+javafx {
+    version = "21"
+    modules = listOf("javafx.controls", "javafx.fxml", "javafx.media")
+}
+
+application {
+    mainClass.set("ice.private.brynj.MainKt")
 }
 
 tasks.test {
