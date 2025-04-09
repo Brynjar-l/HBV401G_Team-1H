@@ -24,7 +24,7 @@ class HomeController : Initializable {
     private lateinit var cityTextField: TextField
 
     @FXML
-    private lateinit var listView: ListView<Hotel> // Use Hotel as the type
+    private lateinit var listView: ListView<Hotel> 
 
     @FXML
     private lateinit var maxPriceTextField: TextField
@@ -56,8 +56,7 @@ class HomeController : Initializable {
     @FXML
     private lateinit var maxStarRatingTextField: TextField
 
-    private val hotelService = HotelService() // Create an instance of HotelService
-
+    private val hotelService = HotelService() 
     @FXML
     private lateinit var amenitiesListView: ListView<CheckBox>
 
@@ -87,20 +86,19 @@ class HomeController : Initializable {
 
         return FXCollections.observableArrayList(amenities.map { amenity ->
             CheckBox(amenity).apply {
-                // Optionally, set the default state
                 selectedProperty().set(false)
             }
         })
     }
 
     override fun initialize(location: URL?, resources: ResourceBundle?) {
-        // Load all hotels initially
+        // Load all hotels initially to fill the list for the user
         loadAllHotels()
 
         val checkBoxes = createAmenityCheckBoxes()
         amenitiesListView.items = checkBoxes
 
-        // Set custom cell factory to display only hotel names
+        // Set custom cell factory to show hotel names only
         listView.cellFactory = Callback { param ->
             object : javafx.scene.control.ListCell<Hotel>() {
                 override fun updateItem(item: Hotel?, empty: Boolean) {
@@ -108,10 +106,10 @@ class HomeController : Initializable {
                     text = if (empty || item == null) {
                         "" // Display nothing if empty
                     } else {
-                        item.name // Display only the hotel's name
+                        item.name 
                     }
 
-                    // Set hover event to display hotel details in the right box
+                    //to show detail if hovered over hotel
                     setOnMouseEntered {
                         if (item != null) {
                             showHotelDetails(item)
@@ -119,7 +117,7 @@ class HomeController : Initializable {
                     }
 
                     setOnMouseExited {
-                        // Clear hotel details when mouse exits the list item
+                        // Clear hotel details when mouse is no longer hovering over the hotel
                         clearHotelDetails()
                     }
                 }
@@ -131,16 +129,16 @@ class HomeController : Initializable {
             val selectedHotel = listView.selectionModel.selectedItem
             if (selectedHotel != null) {
                 // Use SceneSwitcher to switch to the hotel details scene
-                val fxmlFileName = "/UI/hotelView.fxml" // Replace with the actual FXML file path
+                val fxmlFileName = "/UI/hotelView.fxml" 
                 val sceneSwitcher = SceneSwitcher()
                 sceneSwitcher.switchSceneHotel(event, fxmlFileName, selectedHotel)
             }
         }
     }
 
+    // Fetch all hotels and populate the ListView
     private fun loadAllHotels() {
-        // Fetch all hotels and populate the ListView
-        val hotels = hotelService.searchHotels(SearchCriteria()) // Empty criteria to get all hotels
+        val hotels = hotelService.searchHotels(SearchCriteria()) 
         listView.items.setAll(hotels)
     }
 
@@ -154,8 +152,8 @@ class HomeController : Initializable {
 
         // Collect selected amenities
         val selectedAmenities = amenitiesListView.items
-            .filter { it.selectedProperty().get() }  // Filter selected checkboxes
-            .map { Amenity(it.text) }  // Assuming Amenity has a constructor taking the name
+            .filter { it.selectedProperty().get() }  
+            .map { Amenity(it.text) } 
 
         // Create SearchCriteria
         val criteria = SearchCriteria(
@@ -164,7 +162,7 @@ class HomeController : Initializable {
             maxPricePerNight = maxPrice,
             minStarRating = minStarRating,
             maxStarRating = maxStarRating,
-            selectedAmenities = selectedAmenities.toSet()  // Convert to Set<Amenity>
+            selectedAmenities = selectedAmenities.toSet()  
         )
 
         // Perform the search and update the ListView
@@ -172,9 +170,8 @@ class HomeController : Initializable {
         listView.items.setAll(hotels)
     }
 
-
+    // Display the details of the hovered hotel in the right section
     private fun showHotelDetails(hotel: Hotel) {
-        // Display the details of the hovered hotel in the right section
         hotelName.text = "Name: ${hotel.name}"
         hotelAddress.text = "Address: ${hotel.address}"
         hotelCity.text = "City: ${hotel.city}"
@@ -182,8 +179,8 @@ class HomeController : Initializable {
         hotelDescription.text = "Description: ${hotel.description ?: "No description available"}"
     }
 
+    //make details empty when removed from hover
     private fun clearHotelDetails() {
-        // Clear the details from the right section when the hover is removed
         hotelName.text = ""
         hotelAddress.text = ""
         hotelCity.text = ""

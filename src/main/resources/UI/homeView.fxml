@@ -24,9 +24,9 @@
                                         <Insets top="10.0" />
                                     </VBox.margin>
                                 </Text>
-                                <!-- ListView for Amenities with Checkboxes -->
+                                
                                 <ListView fx:id="amenitiesListView" prefHeight="200.0" prefWidth="200.0">
-                                    <!-- The ListView will be populated with CheckBoxes in the controller -->
+                                   
                                 </ListView>
                                 <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Price per night in isk">
                                     <VBox.margin>

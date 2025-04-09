@@ -22,13 +22,13 @@
                 </VBox>
                 <HBox prefHeight="100.0" prefWidth="600.0">
                     <children>
-                        <Button alignment="CENTER" minHeight="100.0" minWidth="200.0" mnemonicParsing="false" text="Book" />
+                        <Button fx:id="bookingButton" alignment="CENTER" minHeight="100.0" minWidth="200.0" mnemonicParsing="false" text="Book" />
                     </children>
                 </HBox>
             </children>
         </VBox>
 
-        <!-- ListView for displaying rooms on the right -->
+      
         <VBox layoutX="560.0" layoutY="50.0" prefHeight="200.0" prefWidth="300.0" AnchorPane.bottomAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
             <children>
                 <Text style="-fx-font-size: 16px; -fx-font-weight: bold;" text="Rooms" />
