@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ListView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Text?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="300.0" prefWidth="650.0" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="uiclasses.HotelController">
+    <children>
+        <VBox layoutX="50.0" layoutY="50.0" prefHeight="200.0" prefWidth="500.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0">
+            <children>
+                <VBox prefHeight="200.0" prefWidth="200.0">
+                    <children>
+                        <Text fx:id="hotelName" style="-fx-font-size: 18px; -fx-font-weight: bold;" />
+                        <Text fx:id="hotelAddress" style="-fx-font-size: 14px;" />
+                        <Text fx:id="hotelCity" style="-fx-font-size: 14px;" />
+                        <Text fx:id="hotelStarRating" style="-fx-font-size: 14px;" />
+                        <Text fx:id="hotelDescription" style="-fx-font-size: 12px; -fx-fill: grey;" wrappingWidth="480.0" />
+                    </children>
+                </VBox>
+                <HBox prefHeight="100.0" prefWidth="600.0">
+                    <children>
+                        <Button fx:id="bookingButton" alignment="CENTER" minHeight="100.0" minWidth="200.0" mnemonicParsing="false" text="Book" />
+                    </children>
+                </HBox>
+            </children>
+        </VBox>
+
+      
+        <VBox layoutX="560.0" layoutY="50.0" prefHeight="200.0" prefWidth="300.0" AnchorPane.bottomAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+            <children>
+                <Text style="-fx-font-size: 16px; -fx-font-weight: bold;" text="Rooms" />
+                <ListView fx:id="roomListView" prefHeight="281.0" prefWidth="325.0" />
+            </children>
+        </VBox>
+    </children>
+</AnchorPane>
