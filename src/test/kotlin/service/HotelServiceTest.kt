@@ -5,6 +5,7 @@ import model.Hotel
 import model.Room
 import org.junit.jupiter.api.*
 import org.junit.jupiter.api.Test
+import utils.HotelProvider
 import utils.SearchCriteria
 import java.time.LocalDate
 import kotlin.test.*
@@ -37,6 +38,12 @@ class HotelServiceTest {
         service = HotelService(testProvider)
     }
 
+
+    @Test
+    fun callingSearchHotels_onMockData_hitsServiceLogic() {
+        val results = service.searchHotels(SearchCriteria())
+        assertEquals(3, results.size)
+    }
 
 
     @Test

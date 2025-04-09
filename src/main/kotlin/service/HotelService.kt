@@ -1,22 +1,12 @@
 package service
 
 import database.DatabaseManager
-import database.entities.HotelEntity
 import model.Hotel
 import model.Room
 import utils.SearchCriteria
-import org.jetbrains.exposed.sql.transactions.transaction
+import utils.HotelProvider
+import utils.defaultProvider
 import java.time.LocalDate
-
-
-
-typealias HotelProvider = () -> List<Hotel>
-
-fun defaultProvider(): HotelProvider = {
-    transaction {
-        HotelEntity.all().map { it.toDto() }
-    }
-}
 
 
 class HotelService(private val hotelProvider: HotelProvider = defaultProvider()) {
@@ -121,30 +111,5 @@ class HotelService(private val hotelProvider: HotelProvider = defaultProvider())
         }
 
         return !overlap
-    }
-}
-
-
-fun main() {
-    DatabaseManager.init()
-    val hotelService = HotelService()
-
-    val criteria = SearchCriteria(
-        maxStarRating = 1.0,
-        minPricePerNight = 4000,
-        maxPricePerNight = 6000,
-        fromDate = LocalDate.of(2025, 5, 1),
-        toDate = LocalDate.of(2025, 5, 5),
-        numberOfBeds = 4,
-    )
-
-    val results = hotelService.searchHotels(criteria)
-
-    println("Found ${results.size} matching hotels:")
-    results.forEach { hotel ->
-        println("  Hotel '${hotel.name}' in ${hotel.city}, ::rating ${hotel.starRating} has rooms:")
-        hotel.rooms.forEach { room ->
-            println("    Room #${room.roomNumber} with pricePerNight=${room.pricePerNight} :: num of beds: ${room.numberOfBeds}")
-        }
     }
 }
