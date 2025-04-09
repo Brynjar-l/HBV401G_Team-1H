@@ -1,4 +1,4 @@
-package uiclasses
+package ui.nav
 
 import javafx.event.Event
 import javafx.fxml.FXMLLoader
@@ -6,7 +6,8 @@ import javafx.scene.Node
 import javafx.scene.Parent
 import javafx.scene.Scene
 import javafx.stage.Stage
-import ice.private.brynj.model.Hotel
+import model.Hotel
+import ui.HotelDetailsController
 
 class SceneSwitcher {
 
@@ -18,10 +19,10 @@ class SceneSwitcher {
         val root: Parent = loader.load() as Parent
 
         // Get the controller for the loaded FXML and set the hotel
-        val hotelController = loader.getController() as HotelController  
+        val hotelDetailsController = loader.getController() as HotelDetailsController
 
         // Set the hotel in the controller
-        hotelController.setHotel(selectedHotel)
+        hotelDetailsController.setHotel(selectedHotel)
 
         // Get the current stage and switch the scene
         val stage = (event.source as Node).scene.window as Stage

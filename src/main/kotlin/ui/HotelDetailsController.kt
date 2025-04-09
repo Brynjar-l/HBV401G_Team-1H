@@ -1,7 +1,6 @@
-package uiclasses
+package ui
 
-import ice.private.brynj.model.Hotel
-import ice.private.brynj.model.Room
+import model.Hotel
 import javafx.fxml.FXML
 import javafx.scene.control.ListView
 import javafx.scene.control.Button
@@ -14,7 +13,7 @@ import java.util.*
 import javafx.scene.text.Text
 
 
-class HotelController : Initializable {
+class HotelDetailsController : Initializable {
 
     @FXML private lateinit var hotelName: Text
     @FXML private lateinit var hotelAddress: Text

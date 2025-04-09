@@ -1,9 +1,10 @@
-package uiclasses
+package ui
 
-import ice.private.brynj.model.Amenity
-import ice.private.brynj.model.Hotel
-import ice.private.brynj.service.HotelService
-import ice.private.brynj.utils.SearchCriteria
+import model.Amenity
+import model.Hotel
+import service.HotelService
+import ui.nav.SceneSwitcher
+import utils.SearchCriteria
 import javafx.fxml.FXML
 import javafx.fxml.Initializable
 import javafx.scene.control.Button
@@ -11,20 +12,19 @@ import javafx.scene.control.ListView
 import javafx.scene.control.TextField
 import javafx.scene.text.Text
 import javafx.util.Callback
-import javafx.event.ActionEvent
 import java.net.URL
 import java.util.*
 import javafx.scene.control.CheckBox
 import javafx.collections.FXCollections
 import javafx.collections.ObservableList
 
-class HomeController : Initializable {
+class HotelSearchController : Initializable {
 
     @FXML
     private lateinit var cityTextField: TextField
 
     @FXML
-    private lateinit var listView: ListView<Hotel> 
+    private lateinit var listView: ListView<Hotel>
 
     @FXML
     private lateinit var maxPriceTextField: TextField
@@ -56,7 +56,7 @@ class HomeController : Initializable {
     @FXML
     private lateinit var maxStarRatingTextField: TextField
 
-    private val hotelService = HotelService() 
+    private val hotelService = HotelService()
     @FXML
     private lateinit var amenitiesListView: ListView<CheckBox>
 
@@ -129,7 +129,7 @@ class HomeController : Initializable {
             val selectedHotel = listView.selectionModel.selectedItem
             if (selectedHotel != null) {
                 // Use SceneSwitcher to switch to the hotel details scene
-                val fxmlFileName = "/UI/hotelView.fxml" 
+                val fxmlFileName = "/UI/hotelDetailsView.fxml"
                 val sceneSwitcher = SceneSwitcher()
                 sceneSwitcher.switchSceneHotel(event, fxmlFileName, selectedHotel)
             }
@@ -138,7 +138,7 @@ class HomeController : Initializable {
 
     // Fetch all hotels and populate the ListView
     private fun loadAllHotels() {
-        val hotels = hotelService.searchHotels(SearchCriteria()) 
+        val hotels = hotelService.searchHotels(SearchCriteria())
         listView.items.setAll(hotels)
     }
 
@@ -153,7 +153,7 @@ class HomeController : Initializable {
         // Collect selected amenities
         val selectedAmenities = amenitiesListView.items
             .filter { it.selectedProperty().get() }  
-            .map { Amenity(it.text) } 
+            .map { Amenity(it.text) }
 
         // Create SearchCriteria
         val criteria = SearchCriteria(
