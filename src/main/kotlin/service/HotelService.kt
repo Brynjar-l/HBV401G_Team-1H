@@ -1,10 +1,13 @@
 package service
 
+import database.DatabaseManager
 import database.entities.HotelEntity
 import model.Hotel
+import model.Room
 import utils.SearchCriteria
 import org.jetbrains.exposed.sql.transactions.transaction
 import java.time.LocalDate
+
 
 
 typealias HotelProvider = () -> List<Hotel>
@@ -15,91 +18,133 @@ fun defaultProvider(): HotelProvider = {
     }
 }
 
+
 class HotelService(private val hotelProvider: HotelProvider = defaultProvider()) {
 
     private val cache = LinkedHashSet<Hotel>()
 
-    init {
-        refreshCache(5000)
-    }
+    init { refreshCache() }
+
 
     fun searchHotels(criteria: SearchCriteria): List<Hotel> {
-        val resultList = queryCache(criteria)
 
-        if (resultList.isNotEmpty()) return resultList
-        else refreshCache()
+        val hotelFiltered = cache.filter { matchHotelLevelFilters(it, criteria) }
 
-        return queryCache(criteria)
-    }
-
-
-    private fun queryCache(criteria: SearchCriteria): List<Hotel> = cache.filter { hotel ->
-
-        val matchesAmenities = Match.amenities(hotel, criteria)
-        val matchesCity = Match.city(hotel, criteria)
-        val matchesStarRating = Match.starRating(hotel, criteria)
-        val matchesPrice = Match.price(hotel, criteria)
-        val matchesDate = Match.date(hotel, criteria)
-
-        matchesCity && matchesStarRating && matchesAmenities && matchesPrice && matchesDate
-    }
-
-    private object Match {
-        fun amenities(hotel: Hotel, criteria: SearchCriteria): Boolean {
-        if (criteria.selectedAmenities.isNotEmpty()) {
-            // Ensure the hotel contains all of the selected amenities
-            return criteria.selectedAmenities.all { selectedAmenity ->
-                hotel.amenities.any { it.name == selectedAmenity.name }
-            }
-        }
-        return true // If no amenities are selected, return true (all hotels are considered a match)
-        }
-
-
-        fun city(hotel: Hotel, criteria: SearchCriteria): Boolean {
-            return criteria.city?.equals(hotel.city, ignoreCase = true) ?: true
-        }
-
-        fun starRating(hotel: Hotel, criteria: SearchCriteria): Boolean {
-            return when {
-                criteria.minStarRating != null && hotel.starRating < criteria.minStarRating!! -> false
-                criteria.maxStarRating != null && hotel.starRating > criteria.maxStarRating!! -> false
-                else -> true
+        val finalResults = hotelFiltered.mapNotNull { hotel ->
+            val matchedRooms = hotel.rooms.filter { matchRoomLevelFilters(it, criteria) }
+            if (matchedRooms.isEmpty()) {
+                null
+            } else {
+                hotel.copy(rooms = matchedRooms)
             }
         }
 
-        fun price(hotel: Hotel, criteria: SearchCriteria): Boolean {
-            return if (criteria.minPricePerNight != null || criteria.maxPricePerNight != null) {
-                val hotelMin = hotel.minPrice!!
-                val hotelMax = hotel.maxPrice!!
-
-                val userMin = criteria.minPricePerNight ?: 0
-                val userMax = criteria.maxPricePerNight ?: Int.MAX_VALUE
-
-                !(hotelMax < userMin || hotelMin > userMax)
-            } else true
-        }
-
-        fun date(hotel: Hotel, criteria: SearchCriteria): Boolean {
-            return if (criteria.fromDate != null && criteria.toDate != null) {
-                hotelCheckAvailability(hotel, criteria.fromDate!!, criteria.toDate!!)
-            } else true
-        }
-
-        // fun validateNumberOfBeds()
-        private fun hotelCheckAvailability(hotel: Hotel, fromDate: LocalDate, toDate: LocalDate): Boolean {
-            return hotel.rooms.any { room ->
-                val isOverlapping = room.bookedDates?.any { (bookedFromDate, bookedToDate) ->
-                    fromDate <= bookedToDate && toDate >= bookedFromDate
-                } ?: false
-
-                !isOverlapping
-            }
-        }
+        return finalResults
     }
 
-    private fun refreshCache(sizeLimit: Int = 5000) {
+
+    fun refreshCache() {
         cache.clear()
         cache.addAll(hotelProvider())
+    }
+
+
+    private fun matchHotelLevelFilters(hotel: Hotel, criteria: SearchCriteria): Boolean {
+
+        if (!matchCity(hotel, criteria)) return false
+        if (!matchAmenities(hotel, criteria)) return false
+        if (!matchStarRating(hotel, criteria)) return false
+
+        return true
+    }
+
+    private fun matchCity(hotel: Hotel, criteria: SearchCriteria): Boolean {
+
+        val city = criteria.city
+        return if (city != null) {
+            hotel.city.equals(city, ignoreCase = true)
+        } else {
+            true
+        }
+    }
+
+    private fun matchAmenities(hotel: Hotel, criteria: SearchCriteria): Boolean {
+        val desired = criteria.selectedAmenities
+        if (desired.isEmpty()) return true
+
+        return desired.all { selected ->
+            hotel.amenities.any { it.name.equals(selected.name, ignoreCase = true) }
+        }
+    }
+
+    private fun matchStarRating(hotel: Hotel, criteria: SearchCriteria): Boolean {
+        val minRating = criteria.minStarRating
+        val maxRating = criteria.maxStarRating
+
+        if (minRating != null && hotel.starRating < minRating) return false
+        if (maxRating != null && hotel.starRating > maxRating) return false
+
+        return true
+    }
+
+    private fun matchRoomLevelFilters(room: Room, criteria: SearchCriteria): Boolean {
+
+        if (!matchPrice(room, criteria)) return false
+        if (!matchBeds(room, criteria)) return false
+        if (!matchAvailability(room, criteria)) return false
+
+        return true
+    }
+
+    private fun matchPrice(room: Room, criteria: SearchCriteria): Boolean {
+
+        val userMin = criteria.minPricePerNight ?: Int.MIN_VALUE
+        val userMax = criteria.maxPricePerNight ?: Int.MAX_VALUE
+
+        return room.pricePerNight in userMin..userMax
+    }
+
+    private fun matchBeds(room: Room, criteria: SearchCriteria): Boolean {
+
+        val requiredBeds = criteria.numberOfBeds ?: return true
+        return room.numberOfBeds >= requiredBeds
+    }
+
+    private fun matchAvailability(room: Room, criteria: SearchCriteria): Boolean {
+        val from = criteria.fromDate
+        val to = criteria.toDate
+
+        if (from == null || to == null) return true
+
+        val overlap = room.bookedDates.any { (bookedFrom, bookedTo) ->
+            from <= bookedTo && to >= bookedFrom
+        }
+
+        return !overlap
+    }
+}
+
+
+fun main() {
+    DatabaseManager.init()
+    val hotelService = HotelService()
+
+    val criteria = SearchCriteria(
+        maxStarRating = 1.0,
+        minPricePerNight = 4000,
+        maxPricePerNight = 6000,
+        fromDate = LocalDate.of(2025, 5, 1),
+        toDate = LocalDate.of(2025, 5, 5),
+        numberOfBeds = 4,
+    )
+
+    val results = hotelService.searchHotels(criteria)
+
+    println("Found ${results.size} matching hotels:")
+    results.forEach { hotel ->
+        println("  Hotel '${hotel.name}' in ${hotel.city}, ::rating ${hotel.starRating} has rooms:")
+        hotel.rooms.forEach { room ->
+            println("    Room #${room.roomNumber} with pricePerNight=${room.pricePerNight} :: num of beds: ${room.numberOfBeds}")
+        }
     }
 }
