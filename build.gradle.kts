@@ -23,6 +23,7 @@ dependencies {
 
     /* DB Driver */
     implementation("org.xerial:sqlite-jdbc:3.49.1.0")
+    testImplementation("com.h2database:h2:2.1.214")
 
     /* Logging */
     implementation("org.slf4j:slf4j-api:2.0.17")
