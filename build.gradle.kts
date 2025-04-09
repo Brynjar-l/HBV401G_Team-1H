@@ -42,8 +42,9 @@ javafx {
 }
 
 application {
-    mainClass.set("app/Main.kt")
+    mainClass.set("app.MainKt")
 }
+
 
 tasks.test {
     useJUnitPlatform()
