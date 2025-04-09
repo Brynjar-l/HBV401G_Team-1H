@@ -42,7 +42,7 @@ javafx {
 }
 
 application {
-    mainClass.set("app.MainKt")
+    mainClass.set("MainKt")
 }
 
 
