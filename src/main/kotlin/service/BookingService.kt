@@ -17,8 +17,8 @@ class BookingService {
             // kanna overlap
             val overlapCount = BookingEntity.find {
                 (BookingTable.room eq roomId) and
-                        (BookingTable.fromDate lessEq toDate.toString()) and
-                        (BookingTable.toDate greaterEq fromDate.toString())
+                        (BookingTable.fromDate less toDate.toString()) and
+                        (BookingTable.toDate greater fromDate.toString())
             }.count()
             if (overlapCount > 0) {
                 throw IllegalStateException("Room $roomId is already booked from $fromDate to $toDate.")
