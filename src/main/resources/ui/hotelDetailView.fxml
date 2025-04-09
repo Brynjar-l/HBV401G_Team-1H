@@ -1,44 +1,50 @@
 <?xml version="1.0" encoding="UTF-8"?>
-
-<?import javafx.geometry.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<BorderPane xmlns="http://javafx.com/javafx/11.0.14-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ui.HotelDetailController">
+<?import javafx.geometry.Insets?>
+<BorderPane xmlns="http://javafx.com/javafx/11.0.14-internal"
+            xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="ui.HotelDetailController">
 
     <top>
-        <Label fx:id="hotelNameLabel" style="-fx-font-size: 16; -fx-font-weight: bold;" text="Hotel Name...">
-         <BorderPane.margin>
-            <Insets left="5.0" top="5.0" />
-         </BorderPane.margin>
-         <padding>
-            <Insets left="5.0" top="5.0" />
-         </padding></Label>
+        <Label fx:id="hotelNameLabel"
+               style="-fx-font-size: 16; -fx-font-weight: bold;"
+               text="Hotel Name...">
+            <BorderPane.margin>
+                <Insets left="5.0" top="5.0" />
+            </BorderPane.margin>
+            <padding>
+                <Insets left="5.0" top="5.0" />
+            </padding>
+        </Label>
     </top>
 
     <center>
         <VBox spacing="10" style="-fx-padding: 10;">
-
             <TableView fx:id="roomsTable" prefHeight="200">
                 <columns>
-                    <TableColumn fx:id="roomNumberColumn" prefWidth="129.0" text="Room #" />
-                    <TableColumn fx:id="roomPriceColumn" prefWidth="140.0" text="Price / Night" />
-                    <TableColumn fx:id="roomBedsColumn" prefWidth="83.0" text="Beds" />
+                    <TableColumn fx:id="roomNumberColumn"
+                                 prefWidth="129.0"
+                                 text="Room #"/>
+                    <TableColumn fx:id="roomPriceColumn"
+                                 prefWidth="140.0"
+                                 text="Price / Night"/>
+                    <TableColumn fx:id="roomBedsColumn"
+                                 prefWidth="83.0"
+                                 text="Beds"/>
                 </columns>
             </TableView>
 
-            <HBox spacing="10">
-                <Label text="Check-in:" />
-                <DatePicker fx:id="fromDatePicker" />
-                <Label text="Check-out:" />
-                <DatePicker fx:id="toDatePicker" />
-            </HBox>
-
-            <Button fx:id="bookButton" onAction="#onBookClicked" text="Book Selected Room" />
+            <Button fx:id="bookButton"
+                    onAction="#onBookClicked"
+                    text="Book Selected Room"/>
         </VBox>
     </center>
 
     <bottom>
-        <Label fx:id="statusLabel" style="-fx-padding: 10; -fx-text-fill: gray;" text="" />
+        <Label fx:id="statusLabel"
+               style="-fx-padding: 10; -fx-text-fill: gray"/>
     </bottom>
+
 </BorderPane>

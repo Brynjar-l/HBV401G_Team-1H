@@ -23,11 +23,6 @@ class HotelDetailController {
     private lateinit var roomBedsColumn: TableColumn<Room, String>
 
     @FXML
-    private lateinit var fromDatePicker: DatePicker
-    @FXML
-    private lateinit var toDatePicker: DatePicker
-
-    @FXML
     private lateinit var statusLabel: Label
 
     private val bookingService = BookingService()
@@ -41,9 +36,15 @@ class HotelDetailController {
 
     @FXML
     fun initialize() {
-        roomNumberColumn.setCellValueFactory { SimpleStringProperty(it.value.roomNumber ?: "") }
-        roomPriceColumn.setCellValueFactory { SimpleStringProperty(it.value.pricePerNight.toString()) }
-        roomBedsColumn.setCellValueFactory { SimpleStringProperty(it.value.numberOfBeds.toString()) }
+        roomNumberColumn.setCellValueFactory {
+            SimpleStringProperty(it.value.roomNumber ?: "")
+        }
+        roomPriceColumn.setCellValueFactory {
+            SimpleStringProperty(it.value.pricePerNight.toString())
+        }
+        roomBedsColumn.setCellValueFactory {
+            SimpleStringProperty(it.value.numberOfBeds.toString())
+        }
 
         roomsTable.setRowFactory { _ ->
             val row = TableRow<Room>()
@@ -65,28 +66,20 @@ class HotelDetailController {
         val selectedRoom = roomsTable.selectionModel.selectedItem
             ?: return showError("No room selected.")
 
-        val from = fromDatePicker.value
-            ?: return showError("Please select a check-in date.")
-        val to = toDatePicker.value
-            ?: return showError("Please select a check-out date.")
-
-        if (!isValidRange(from, to)) {
-            return showError("Check-out must be after check-in.")
-        }
+        val from = LocalDate.now().plusDays(1)
+        val to = LocalDate.now().plusDays(3)
 
         try {
             val newBooking = bookingService.createBooking(
                 roomId = selectedRoom.id,
                 fromDate = from,
-                toDate = to,
+                toDate = to
             )
             showSuccess("Booking created for Room #${selectedRoom.roomNumber} from $from to $to!")
         } catch (ex: IllegalArgumentException) {
             showError("Room is unavailable: ${ex.message}")
-        } catch (ex: IllegalArgumentException) {
-            showError(ex.message ?: "Could not book.")
         } catch (ex: IllegalStateException) {
-            showError(ex.message ?: "Room overlap error")
+            showError("Overlap error: ${ex.message}")
         }
     }
 
@@ -98,9 +91,5 @@ class HotelDetailController {
     private fun showSuccess(msg: String) {
         statusLabel.text = msg
         statusLabel.style = "-fx-text-fill: green;"
-    }
-
-    private fun isValidRange(from: LocalDate, to: LocalDate): Boolean {
-        return to.isAfter(from)
     }
 }

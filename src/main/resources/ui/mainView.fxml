@@ -13,39 +13,31 @@
 <BorderPane minHeight="500.0" minWidth="1200.0" prefHeight="500.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/11.0.14-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ui.MainViewController">
 
     <top>
-        <HBox alignment="CENTER" spacing="10">
+        <HBox alignment="CENTER" spacing="10" style="-fx-padding: 10;">
+            <Label text="City:"/>
+            <TextField fx:id="cityField" prefWidth="100"/>
 
-            <Label text="City:" />
-            <TextField fx:id="cityField" prefWidth="100" />
+            <Label text="Min Rating:"/>
+            <TextField fx:id="minRatingField" prefWidth="50"/>
 
+            <Label text="Max Rating:"/>
+            <TextField fx:id="maxRatingField" prefWidth="50"/>
 
-            <Label text="Min Rating:" />
-            <TextField fx:id="minRatingField" prefWidth="50" />
+            <Label text="Min Price:"/>
+            <TextField fx:id="minPriceField" prefWidth="60"/>
+            <Label text="Max Price:"/>
+            <TextField fx:id="maxPriceField" prefWidth="60"/>
 
+            <Label text="From:"/>
+            <DatePicker fx:id="fromDatePicker"/>
+            <Label text="To:"/>
+            <DatePicker fx:id="toDatePicker"/>
 
-            <Label text="Max Rating:" />
-            <TextField fx:id="maxRatingField" prefWidth="50" />
-
-
-            <Label text="From Date:" />
-            <DatePicker fx:id="fromDatePicker" />
-
-
-            <Label text="To Date:" />
-            <DatePicker fx:id="toDatePicker" />
-
-            <Button onAction="#onSearchClicked" text="Search" />
-            <Button onAction="#onClearClicked" text="Clear" />
-
-         <BorderPane.margin>
-            <Insets left="5.0" />
-         </BorderPane.margin>
-         <padding>
-            <Insets bottom="10.0" left="5.0" />
-         </padding>
-
+            <Button onAction="#onSearchClicked" text="Search"/>
+            <Button onAction="#onClearClicked" text="Clear"/>
         </HBox>
     </top>
+
 
     <left>
 
