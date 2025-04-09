@@ -1,110 +1,121 @@
 package service
 
-import utils.SearchCriteria
 import model.Amenity
 import model.Hotel
 import model.Room
-import org.junit.jupiter.api.Assertions.*
-import org.junit.jupiter.api.BeforeEach
-import org.junit.jupiter.api.Nested
+import org.junit.jupiter.api.*
 import org.junit.jupiter.api.Test
+import utils.SearchCriteria
 import java.time.LocalDate
+import kotlin.test.*
 
 class HotelServiceTest {
 
+    private val wifiAmenity = Amenity("WiFi", 1)
+    private val breakfastAmenity = Amenity("Breakfast", 2)
+    private val parkingAmenity = Amenity("Parking", 3)
+
+    private val hotelA_Room1 = Room("101", 2000, 2, 1, 1, emptyList())
+    private val hotelA_Room2 = Room("102", 6000, 3, 2, 1, listOf(LocalDate.of(2025, 5, 1) to LocalDate.of(2025, 5, 3)))
+    private val hotelB_Room1 = Room("201", 4500, 1, 3, 2, listOf(LocalDate.of(2025, 4, 30) to LocalDate.of(2025, 5, 2)))
+    private val hotelB_Room2 = Room("202", 5000, 2, 4, 2, emptyList())
+    private val hotelC_Room1 = Room("301", 8000, 4, 5, 3, emptyList())
+
+    private val hotelA = Hotel( "Alpha Hotel", "addressA", "Paris", 3.5, null, 1, listOf(hotelA_Room1, hotelA_Room2), listOf(wifiAmenity, parkingAmenity))
+    private val hotelB = Hotel( "Bravo Hotel", "addressB", "Rome", 4.0, null, 2, listOf(hotelB_Room1, hotelB_Room2), listOf(breakfastAmenity))
+    private val hotelC = Hotel( "Charlie Resort", "addressC", "Paris", 5.0, null, 3, listOf(hotelC_Room1), listOf(wifiAmenity, breakfastAmenity))
+
+
+    private val testHotels = listOf(hotelA, hotelB, hotelC)
+    private val testProvider: HotelProvider = { testHotels }
+
     private lateinit var service: HotelService
+
 
     @BeforeEach
     fun setup() {
-        service = HotelService { testHotels }
+        service = HotelService(testProvider)
     }
-
-    private val testHotels = listOf(
-        Hotel(
-            id = 1,
-            name = "Hotel A",
-            city = "Reykjavik",
-            starRating = 4.5,
-            address = "Sæmundargata 1",
-            amenities = listOf(Amenity("free-wifi"), Amenity("parking")),
-            rooms = listOf(
-                Room(
-                    id = 1,
-                    hotelId = 1,
-                    roomNumber = "101",
-                    pricePerNight = 150,
-                    numberOfBeds = 2,
-                    bookedDates = listOf(
-                        LocalDate.of(2025, 5, 1) to LocalDate.of(2025, 5, 3),
-                        LocalDate.of(2025, 5, 15) to LocalDate.of(2025, 5, 20)
-                    ),
-                    )
-            ),
-        ),
-
-        Hotel(
-            id = 2,
-            name = "Hotel B",
-            city = "Kopavogur",
-            starRating = 2.5,
-            address = "Sæmundargata 2",
-            amenities = listOf(Amenity("free-wifi"), Amenity("parking")),
-            rooms = listOf(
-                Room(
-                    id = 2,
-                    hotelId = 2,
-                    roomNumber = "101",
-                    pricePerNight = 350,
-                    numberOfBeds = 2,
-                    bookedDates = listOf(
-                        LocalDate.of(2025, 6, 1) to LocalDate.of(2025, 5, 3),
-                        LocalDate.of(2025, 6, 7) to LocalDate.of(2025, 11, 20)
-                    ),
-                    )
-            ),
-        )
-    )
-
 
 
 
     @Test
-    fun `search should return hotel matching city and date availability`() {
+    @DisplayName("test no criteria returns all hotels")
+    fun noCriteria_returnsAllHotels() {
+        val results = service.searchHotels(SearchCriteria())
+        assertEquals(3, results.size)
+    }
+
+    @Test
+    @DisplayName("test city filter - Paris")
+    fun cityFilter_paris_returns2Hotels() {
+        val results = service.searchHotels(SearchCriteria(city = "Paris"))
+        assertEquals(2, results.size)
+    }
+
+    @Test
+    @DisplayName("test amenity filter - WiFi")
+    fun amenityFilter_wifi_returns2Hotels() {
+        val criteria = SearchCriteria(selectedAmenities = setOf(wifiAmenity))
+        val results = service.searchHotels(criteria)
+        assertEquals(2, results.size)
+    }
+
+    @Test
+    @DisplayName("test star rating filter - min 4, max 5")
+    fun starRatingFilter_min4Max5_returnsHotels2And3() {
+        val criteria = SearchCriteria(minStarRating = 4.0, maxStarRating = 5.0)
+        val results = service.searchHotels(criteria)
+        assertEquals(2, results.size)
+    }
+
+    @Test
+    @DisplayName("test price filter - 4000 to 6000")
+    fun priceFilter_4000to6000_excludesHotelC() {
+        val criteria = SearchCriteria(minPricePerNight = 4000, maxPricePerNight = 6000)
+        val results = service.searchHotels(criteria)
+        assertEquals(2, results.size)
+    }
+
+    @Test
+    @DisplayName("test date availability filter")
+    fun dateFilter_2025_05_01to2025_05_03_includesAllButTrimRooms() {
         val criteria = SearchCriteria(
-            city = "Reykjavik",
-            fromDate = LocalDate.of(2025, 5, 5),
-            toDate = LocalDate.of(2025, 5, 8)
+            fromDate = LocalDate.of(2025, 5, 1),
+            toDate = LocalDate.of(2025, 5, 3)
         )
-
-        val result = service.searchHotels(criteria)
-
-        assertEquals(1, result.size)
-        assertEquals("Hotel A", result.first().name)
+        val results = service.searchHotels(criteria)
+        assertEquals(3, results.size)
     }
 
     @Test
-    fun `search should exclude hotel if room is booked`() {
+    @DisplayName("test number of beds filter")
+    fun bedsFilter_atLeast2_returnsAllHotelsButTrimSomeRooms() {
+        val criteria = SearchCriteria(numberOfBeds = 2)
+        val results = service.searchHotels(criteria)
+        assertEquals(3, results.size)
+    }
+
+    @Test
+    @DisplayName("test combined filters - city, star rating, price, and date")
+    fun combinedFilters_paris4Star4000to6000_2025_05_01to2025_05_03_returnsEmpty() {
         val criteria = SearchCriteria(
-            city = "Reykjavik",
-            fromDate = LocalDate.of(2025, 5, 2),
-            toDate = LocalDate.of(2025, 5, 4)
+            city = "Paris",
+            minStarRating = 4.0,
+            minPricePerNight = 4000,
+            maxPricePerNight = 6000,
+            fromDate = LocalDate.of(2025, 5, 1),
+            toDate = LocalDate.of(2025, 5, 3)
         )
-
-        val result = service.searchHotels(criteria)
-
-        assertTrue(result.isEmpty())
+        val results = service.searchHotels(criteria)
+        assertTrue(results.isEmpty())
     }
-    
+
     @Test
-    fun `search should return `() {
-        
+    @DisplayName("test empty results still handles gracefully")
+    fun cityFilter_tokyo_returnsEmpty() {
+        val criteria = SearchCriteria(city = "Tokyo")
+        val results = service.searchHotels(criteria)
+        assertTrue(results.isEmpty())
     }
-
-    @Nested
-    inner class DateValidation {
-
-
-    }
-    
-
 }
