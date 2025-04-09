@@ -1,9 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<!--
-  Place this file in src/main/resources/fxml/MainView.fxml
-  or wherever your resource path is set.
--->
 
 <?import javafx.geometry.*?>
 <?import javafx.scene.control.*?>
