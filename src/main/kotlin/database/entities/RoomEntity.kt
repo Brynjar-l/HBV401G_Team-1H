@@ -1,8 +1,8 @@
 package database.entities
 
 
-import database.tables.BookingTable
 import database.tables.RoomTable
+import database.tables.BookingTable
 import model.Room
 
 import org.jetbrains.exposed.dao.IntEntity

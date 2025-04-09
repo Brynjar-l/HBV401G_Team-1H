@@ -6,6 +6,7 @@ import javafx.fxml.FXMLLoader
 import javafx.scene.Parent
 import javafx.scene.Scene
 import javafx.stage.Stage
+import kotlin.system.exitProcess
 
 class HotelSearchApplication : Application() {
 
@@ -23,7 +24,7 @@ class HotelSearchApplication : Application() {
         // Handle window close event
         stage.setOnCloseRequest { 
             Platform.exit()
-            System.exit(0)
+            exitProcess(0)
         }
     }
 

@@ -5,7 +5,7 @@ import java.time.LocalDate
 
 data class Booking(
 
-    val room: Room,
+    val roomId: Int,
     val fromDate: LocalDate,
     val toDate: LocalDate,
     val totalPrice: Int,

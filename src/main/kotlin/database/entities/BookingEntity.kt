@@ -19,13 +19,12 @@ class BookingEntity(id: EntityID<Int>) : IntEntity(id) {
 
     fun toDto(): Booking {
 
-        val room = this.room.toDto()
         val fromDate: LocalDate = LocalDate.parse(this.fromDate)
         val toDate: LocalDate = LocalDate.parse(this.toDate)
 
         return Booking(
             id = this.id.value,
-            room = room,
+            roomId = this.room.id.value,
 
             fromDate = fromDate,
             toDate = toDate,

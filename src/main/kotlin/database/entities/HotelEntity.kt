@@ -1,9 +1,9 @@
 package database.entities
 
 
-import database.tables.HotelAmenitiesTable
 import database.tables.HotelTable
 import database.tables.RoomTable
+import database.tables.HotelAmenitiesTable
 import model.Hotel
 import org.jetbrains.exposed.dao.IntEntity
 import org.jetbrains.exposed.dao.IntEntityClass
