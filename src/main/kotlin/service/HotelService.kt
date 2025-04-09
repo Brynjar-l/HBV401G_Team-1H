@@ -46,10 +46,15 @@ class HotelService(private val hotelProvider: HotelProvider = defaultProvider())
 
     private object Match {
         fun amenities(hotel: Hotel, criteria: SearchCriteria): Boolean {
-            return if (criteria.selectedAmenities.isNotEmpty()) {
-                criteria.selectedAmenities.all { it in hotel.amenities }
-            } else true
+        if (criteria.selectedAmenities.isNotEmpty()) {
+            // Ensure the hotel contains all of the selected amenities
+            return criteria.selectedAmenities.all { selectedAmenity ->
+                hotel.amenities.any { it.name == selectedAmenity.name }
+            }
         }
+        return true // If no amenities are selected, return true (all hotels are considered a match)
+        }
+
 
         fun city(hotel: Hotel, criteria: SearchCriteria): Boolean {
             return criteria.city?.equals(hotel.city, ignoreCase = true) ?: true

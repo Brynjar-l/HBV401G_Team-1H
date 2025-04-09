@@ -19,14 +19,20 @@
                   <VBox minWidth="200.0">
                      <children>
                         <TextField fx:id="cityTextField" promptText="Enter City" />
-                        <CheckBox mnemonicParsing="false" text="CheckBox" />
-                        <CheckBox mnemonicParsing="false" text="CheckBox" />
-                        <CheckBox mnemonicParsing="false" text="CheckBox" />
-                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Price per night in isk">
-                           <VBox.margin>
-                              <Insets top="10.0" />
-                           </VBox.margin>
-                        </Text>
+                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Select Amenities">
+                                    <VBox.margin>
+                                        <Insets top="10.0" />
+                                    </VBox.margin>
+                                </Text>
+                                <!-- ListView for Amenities with Checkboxes -->
+                                <ListView fx:id="amenitiesListView" prefHeight="200.0" prefWidth="200.0">
+                                    <!-- The ListView will be populated with CheckBoxes in the controller -->
+                                </ListView>
+                                <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Price per night in isk">
+                                    <VBox.margin>
+                                        <Insets top="10.0" />
+                                    </VBox.margin>
+                                </Text>
                         <HBox prefHeight="32.0" prefWidth="158.0">
                            <children>
                               <TextField fx:id="minPriceTextField" prefHeight="24.0" prefWidth="169.0" promptText="Min Price">
