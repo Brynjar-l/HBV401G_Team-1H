@@ -1,12 +1,10 @@
 package service
 
-import database.DatabaseManager
 import model.Hotel
 import model.Room
 import utils.SearchCriteria
 import utils.HotelProvider
 import utils.defaultProvider
-import java.time.LocalDate
 
 
 class HotelService(private val hotelProvider: HotelProvider = defaultProvider()) {

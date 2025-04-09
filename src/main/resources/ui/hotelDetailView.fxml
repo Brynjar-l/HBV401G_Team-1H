@@ -1,20 +1,44 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<!-- HotelDetailView.fxml -->
+<?import javafx.geometry.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<BorderPane xmlns:fx="http://javafx.com/fxml/1"
-            fx:controller="ui.HotelDetailController">
+<BorderPane xmlns="http://javafx.com/javafx/11.0.14-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ui.HotelDetailController">
+
     <top>
-        <Label fx:id="hotelNameLabel" style="-fx-font-size: 16; -fx-font-weight: bold;"/>
+        <Label fx:id="hotelNameLabel" style="-fx-font-size: 16; -fx-font-weight: bold;" text="Hotel Name...">
+         <BorderPane.margin>
+            <Insets left="5.0" top="5.0" />
+         </BorderPane.margin>
+         <padding>
+            <Insets left="5.0" top="5.0" />
+         </padding></Label>
     </top>
+
     <center>
         <VBox spacing="10" style="-fx-padding: 10;">
-            <Label fx:id="hotelCityLabel"/>
-            <Label fx:id="hotelRatingLabel"/>
-            <Label fx:id="hotelDescriptionLabel" wrapText="true"/>
 
+            <TableView fx:id="roomsTable" prefHeight="200">
+                <columns>
+                    <TableColumn fx:id="roomNumberColumn" prefWidth="129.0" text="Room #" />
+                    <TableColumn fx:id="roomPriceColumn" prefWidth="140.0" text="Price / Night" />
+                    <TableColumn fx:id="roomBedsColumn" prefWidth="83.0" text="Beds" />
+                </columns>
+            </TableView>
+
+            <HBox spacing="10">
+                <Label text="Check-in:" />
+                <DatePicker fx:id="fromDatePicker" />
+                <Label text="Check-out:" />
+                <DatePicker fx:id="toDatePicker" />
+            </HBox>
+
+            <Button fx:id="bookButton" onAction="#onBookClicked" text="Book Selected Room" />
         </VBox>
     </center>
+
+    <bottom>
+        <Label fx:id="statusLabel" style="-fx-padding: 10; -fx-text-fill: gray;" text="" />
+    </bottom>
 </BorderPane>
