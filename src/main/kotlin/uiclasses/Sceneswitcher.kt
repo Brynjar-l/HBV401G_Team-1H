@@ -18,7 +18,9 @@ class SceneSwitcher {
         val root: Parent = loader.load() as Parent
 
         // Get the controller for the loaded FXML and set the hotel
-        val hotelController = loader.getController<HotelController>()
+        val hotelController = loader.getController() as HotelController  // Explicit cast
+
+        // Set the hotel in the controller
         hotelController.setHotel(selectedHotel)
 
         // Get the current stage and switch the scene
