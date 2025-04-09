@@ -1,4 +1,4 @@
-package ice.private.brynj.database.tables
+package database.tables
 
 
 import org.jetbrains.exposed.sql.ReferenceOption

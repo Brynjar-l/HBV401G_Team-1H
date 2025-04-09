@@ -1,10 +1,10 @@
-package ice.private.brynj.database.entities
+package database.entities
 
 
-import ice.private.brynj.database.tables.HotelAmenitiesTable
-import ice.private.brynj.database.tables.HotelTable
-import ice.private.brynj.database.tables.RoomTable
-import ice.private.brynj.model.Hotel
+import database.tables.HotelAmenitiesTable
+import database.tables.HotelTable
+import database.tables.RoomTable
+import model.Hotel
 import org.jetbrains.exposed.dao.IntEntity
 import org.jetbrains.exposed.dao.IntEntityClass
 import org.jetbrains.exposed.dao.id.EntityID

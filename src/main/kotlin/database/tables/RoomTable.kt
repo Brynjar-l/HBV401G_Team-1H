@@ -1,5 +1,6 @@
-package ice.private.brynj.database.tables
+package database.tables
 
+import database.tables.HotelTable
 import org.jetbrains.exposed.dao.id.IntIdTable
 
 object RoomTable : IntIdTable("rooms", "id") {

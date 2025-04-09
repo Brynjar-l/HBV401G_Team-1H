@@ -1,8 +1,8 @@
-package ice.private.brynj.service
+package service
 
-import ice.private.brynj.database.entities.*
-import ice.private.brynj.model.Hotel
-import ice.private.brynj.utils.SearchCriteria
+import database.entities.HotelEntity
+import model.Hotel
+import utils.SearchCriteria
 import org.jetbrains.exposed.sql.transactions.transaction
 import java.time.LocalDate
 

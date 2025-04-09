@@ -1,8 +1,8 @@
-package ice.private.brynj.database.entities
+package database.entities
 
-import ice.private.brynj.database.tables.AmenityTable
-import ice.private.brynj.database.tables.HotelAmenitiesTable
-import ice.private.brynj.model.Amenity
+import database.tables.AmenityTable
+import database.tables.HotelAmenitiesTable
+import model.Amenity
 import org.jetbrains.exposed.dao.IntEntity
 import org.jetbrains.exposed.dao.IntEntityClass
 import org.jetbrains.exposed.dao.id.EntityID

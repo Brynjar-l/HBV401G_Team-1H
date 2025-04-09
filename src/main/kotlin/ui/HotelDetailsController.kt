@@ -13,7 +13,7 @@ import java.util.*
 import javafx.scene.text.Text
 
 
-class HotelDetailsController : Initializable {
+class HotelController : Initializable {
 
     @FXML private lateinit var hotelName: Text
     @FXML private lateinit var hotelAddress: Text

@@ -1,6 +1,6 @@
-package ice.private.brynj.utils
+package utils
 
-import ice.private.brynj.model.Amenity
+import model.Amenity
 import java.time.LocalDate
 
 data class SearchCriteria(

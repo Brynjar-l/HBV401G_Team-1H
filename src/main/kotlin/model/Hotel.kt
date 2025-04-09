@@ -1,4 +1,4 @@
-package ice.private.brynj.model
+package model
 
 data class Hotel(
 

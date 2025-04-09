@@ -1,10 +1,9 @@
-package ice.private.brynj.database.entities
+package database.entities
 
 
-import ice.private.brynj.database.tables.BookingTable
-import ice.private.brynj.database.tables.RoomTable
-import ice.private.brynj.model.Booking
-import ice.private.brynj.model.Room
+import database.tables.BookingTable
+import database.tables.RoomTable
+import model.Room
 
 import org.jetbrains.exposed.dao.IntEntity
 import org.jetbrains.exposed.dao.IntEntityClass
@@ -24,7 +23,7 @@ class RoomEntity(id: EntityID<Int>) : IntEntity(id) {
 
     val bookings by BookingEntity referrersOn BookingTable.room
 
-    fun toDto(): Room  {
+    fun toDto(): Room {
 
         val bookedDates: List<Pair<LocalDate, LocalDate>> = this.bookings.map { it.toDto() }.map { Pair(it.fromDate, it.toDate) }
 

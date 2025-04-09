@@ -1,11 +1,10 @@
 package service
 
-import ice.private.brynj.database.DatabaseManager
-import ice.private.brynj.model.*
-import ice.private.brynj.service.HotelService
-import ice.private.brynj.utils.SearchCriteria
+import utils.SearchCriteria
+import model.Amenity
+import model.Hotel
+import model.Room
 import org.junit.jupiter.api.Assertions.*
-import org.junit.jupiter.api.BeforeAll
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
